@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+<div class="row">
+    <div class='col-sm-4' style="text-align: left;">
+        <h1>{{ book['title'] }}</h1>
+        <h3>{{ book['author'] }}</h3>
+        <h5>{{ book['year'] }}</h5>
+        {% if review_counts %}
+        <h6>Average Rating: {{ rating }} / 5</h6>
+        <p>Based on {{ review_counts }} reviews from <a href="https://www.goodreads.com/">Goodreads.com</a></p>
+        {% else %}
+        <h6>There are no reviews for this title</h6>
+        {% endif %}
+    </div>
+    <div class='col-sm-8' style="text-align: center;">
+        <form action="/book/{{ book['isbn'] }}" method="POST">
+            <div>
+                <span>Rating:</span><br>
+                <span><input type="radio" name="rating" id="1" value='1'></span>
+                <span><label for="1">1</label></span>
+                <span><input type="radio" name="rating" id="2" value='2'></span>
+                <span><label for="2">2</label></span>
+                <span><input type="radio" name="rating" id="3" value='3'></span>
+                <span><label for="3">3</label></span>
+                <span><input type="radio" name="rating" id="4" value='4'></span>
+                <span><label for="4">4</label></span>
+                <span><input type="radio" name="rating" id="5" value='5'></span>
+                <span><label for="5">5</label></span>
+            </div>
+            <div>
+                <textarea class="form-control" name='review' id="review" rows="6" cols='70'>{{ review }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<br><br><br><br>
+
+{% if reviews %}
+<h6>Here's what other users are saying:</h6>
+<div class='table table-striped'>
+    {% for review in reviews %}
+    <table>
+        <thead>
+            <th>User: {{ review['user'] }}</th>
+            <th>Rating: {{review['rating']}}/5</th>
+        </thead>
+        <tr>
+            <td>{{ review['review'] }}</td>
+        </tr>
+    </table>
+    <br>
+    {% endfor %}
+</div>
+{% else %}
+<h6>There are no reviews for this title yet.</h6>
+{% endif %}
+
+{% endblock %}

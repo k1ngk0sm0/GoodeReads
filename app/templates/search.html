@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+
+{% if books %}
+    <table class='table table-striped'>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+        </tr>
+        {% for book in books %}
+            <tr>
+                <td><a href="{{ url_for('book', isbn = book['isbn']) }}">{{ book ['title'] }}</a></td>
+                <td>{{ book['author'] }}</td>
+                <td>{{ book['year'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+<h1>Sorry, no results found.</h1>
+{% endif %}
+{% endblock %}
